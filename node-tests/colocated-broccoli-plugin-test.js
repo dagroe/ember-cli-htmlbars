@@ -44,13 +44,14 @@ describe('ColocatedTemplateCompiler', function () {
       'app-name-here': {
         'router.js': '// stuff here',
         components: {
-          'foo.js':
-            stripIndent`
+          'foo.js': stripIndent`
             import { hbs } from 'ember-cli-htmlbars';
             const __COLOCATED_TEMPLATE__ = hbs("{{yield}}", {"contents":"{{yield}}","moduleName":"app-name-here/components/foo.hbs","parseOptions":{"srcName":"app-name-here/components/foo.hbs"}});
             import templateOnly from '@ember/component/template-only';
 
-            export default templateOnly();` + '\n',
+            export default templateOnly();
+
+            //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHRlbXBsYXRlT25seSBmcm9tICdAZW1iZXIvY29tcG9uZW50L3RlbXBsYXRlLW9ubHknO1xuXG5leHBvcnQgZGVmYXVsdCB0ZW1wbGF0ZU9ubHkoKTtcbiJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBO0FBQ0E7QUFDQTsifQ==`,
         },
         templates: {
           'application.hbs': '{{outlet}}',
@@ -110,6 +111,7 @@ describe('ColocatedTemplateCompiler', function () {
             import Component from '@glimmer/component';
 
             export default class FooComponent extends Component {}
+            //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IENvbXBvbmVudCBmcm9tICdAZ2xpbW1lci9jb21wb25lbnQnO1xuXG5leHBvcnQgZGVmYXVsdCBjbGFzcyBGb29Db21wb25lbnQgZXh0ZW5kcyBDb21wb25lbnQge30iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQTtBQUNBO0FBQ0EifQ==
           `,
         },
         templates: {
@@ -217,6 +219,7 @@ describe('ColocatedTemplateCompiler', function () {
             import Component from '@glimmer/component';
 
             export default class FooComponent extends Component {}
+            //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLnRzIiwic291cmNlcyI6WyJmb28udHMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IENvbXBvbmVudCBmcm9tICdAZ2xpbW1lci9jb21wb25lbnQnO1xuXG5leHBvcnQgZGVmYXVsdCBjbGFzcyBGb29Db21wb25lbnQgZXh0ZW5kcyBDb21wb25lbnQge30iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQTtBQUNBO0FBQ0EifQ==
           `,
         },
         templates: {
@@ -295,13 +298,14 @@ describe('ColocatedTemplateCompiler', function () {
       '@scope-name': {
         'addon-name-here': {
           components: {
-            'foo.js':
-              stripIndent`
+            'foo.js': stripIndent`
             import { hbs } from 'ember-cli-htmlbars';
             const __COLOCATED_TEMPLATE__ = hbs("{{yield}}", {"contents":"{{yield}}","moduleName":"@scope-name/addon-name-here/components/foo.hbs","parseOptions":{"srcName":"@scope-name/addon-name-here/components/foo.hbs"}});
             import templateOnly from '@ember/component/template-only';
 
-            export default templateOnly();` + '\n',
+            export default templateOnly();
+
+            //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHRlbXBsYXRlT25seSBmcm9tICdAZW1iZXIvY29tcG9uZW50L3RlbXBsYXRlLW9ubHknO1xuXG5leHBvcnQgZGVmYXVsdCB0ZW1wbGF0ZU9ubHkoKTtcbiJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBO0FBQ0E7QUFDQTsifQ==`,
           },
           templates: {
             'application.hbs': '{{outlet}}',
@@ -349,6 +353,7 @@ describe('ColocatedTemplateCompiler', function () {
             import Component from '@glimmer/component';
 
             export default class FooComponent extends Component {}
+            //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IENvbXBvbmVudCBmcm9tICdAZ2xpbW1lci9jb21wb25lbnQnO1xuXG5leHBvcnQgZGVmYXVsdCBjbGFzcyBGb29Db21wb25lbnQgZXh0ZW5kcyBDb21wb25lbnQge30iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQTtBQUNBO0FBQ0EifQ==
           `,
           },
           templates: {
@@ -538,13 +543,14 @@ describe('ColocatedTemplateCompiler', function () {
           'app-name-here': {
             'router.js': '// stuff here',
             components: {
-              'foo.js':
-                stripIndent`
+              'foo.js': stripIndent`
             import { hbs } from 'ember-cli-htmlbars';
             const __COLOCATED_TEMPLATE__ = hbs("{{yield}}", {"contents":"{{yield}}","moduleName":"app-name-here/components/foo.hbs","parseOptions":{"srcName":"app-name-here/components/foo.hbs"}});
             import templateOnly from '@ember/component/template-only';
 
-            export default templateOnly();` + '\n',
+            export default templateOnly();
+
+            //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHRlbXBsYXRlT25seSBmcm9tICdAZW1iZXIvY29tcG9uZW50L3RlbXBsYXRlLW9ubHknO1xuXG5leHBvcnQgZGVmYXVsdCB0ZW1wbGF0ZU9ubHkoKTtcbiJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBO0FBQ0E7QUFDQTsifQ==`,
             },
             templates: {
               'application.hbs': '{{outlet}}',
@@ -590,6 +596,7 @@ describe('ColocatedTemplateCompiler', function () {
               import Component from '@glimmer/component';
 
               export default class FooComponent extends Component {}
+              //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IENvbXBvbmVudCBmcm9tICdAZ2xpbW1lci9jb21wb25lbnQnO1xuXG5leHBvcnQgZGVmYXVsdCBjbGFzcyBGb29Db21wb25lbnQgZXh0ZW5kcyBDb21wb25lbnQge30iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQTtBQUNBO0FBQ0EifQ==
             `,
             },
             templates: {
@@ -675,6 +682,7 @@ describe('ColocatedTemplateCompiler', function () {
               import Component from '@glimmer/component';
 
               export default class FooComponent extends Component {}
+              //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IENvbXBvbmVudCBmcm9tICdAZ2xpbW1lci9jb21wb25lbnQnO1xuXG5leHBvcnQgZGVmYXVsdCBjbGFzcyBGb29Db21wb25lbnQgZXh0ZW5kcyBDb21wb25lbnQge30iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQTtBQUNBO0FBQ0EifQ==
             `,
             },
             templates: {
@@ -787,13 +795,14 @@ describe('ColocatedTemplateCompiler', function () {
           'app-name-here': {
             'router.js': '// stuff here',
             components: {
-              'foo.js':
-                stripIndent`
+              'foo.js': stripIndent`
                   import { hbs } from 'ember-cli-htmlbars';
                   const __COLOCATED_TEMPLATE__ = hbs("{{yield}}", {"contents":"{{yield}}","moduleName":"app-name-here/components/foo.hbs","parseOptions":{"srcName":"app-name-here/components/foo.hbs"}});
                   import templateOnly from '@ember/component/template-only';
 
-                  export default templateOnly();` + '\n',
+                  export default templateOnly();
+
+                  //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHRlbXBsYXRlT25seSBmcm9tICdAZW1iZXIvY29tcG9uZW50L3RlbXBsYXRlLW9ubHknO1xuXG5leHBvcnQgZGVmYXVsdCB0ZW1wbGF0ZU9ubHkoKTtcbiJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBO0FBQ0E7QUFDQTsifQ==`,
             },
             templates: {
               'application.hbs': '{{outlet}}',
@@ -848,13 +857,15 @@ describe('ColocatedTemplateCompiler', function () {
           'app-name-here': {
             'router.js': '// stuff here',
             components: {
-              'foo.js':
-                stripIndent`
+              'foo.js': stripIndent`
                   import { hbs } from 'ember-cli-htmlbars';
                   const __COLOCATED_TEMPLATE__ = hbs("{{yield}}", {"contents":"{{yield}}","moduleName":"app-name-here/components/foo.hbs","parseOptions":{"srcName":"app-name-here/components/foo.hbs"}});
                   import templateOnly from '@ember/component/template-only';
 
-                  export default templateOnly();` + '\n',
+                  export default templateOnly();
+
+                  //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHRlbXBsYXRlT25seSBmcm9tICdAZW1iZXIvY29tcG9uZW50L3RlbXBsYXRlLW9ubHknO1xuXG5leHBvcnQgZGVmYXVsdCB0ZW1wbGF0ZU9ubHkoKTtcbiJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBO0FBQ0E7QUFDQTsifQ==
+                `,
             },
             templates: {
               'application.hbs': '{{outlet}}',
@@ -890,13 +901,14 @@ describe('ColocatedTemplateCompiler', function () {
           'app-name-here': {
             'router.js': '// stuff here',
             components: {
-              'foo.js':
-                stripIndent`
+              'foo.js': stripIndent`
                   import { hbs } from 'ember-cli-htmlbars';
                   const __COLOCATED_TEMPLATE__ = hbs("whoops!", {"contents":"whoops!","moduleName":"app-name-here/components/foo.hbs","parseOptions":{"srcName":"app-name-here/components/foo.hbs"}});
                   import templateOnly from '@ember/component/template-only';
 
-                  export default templateOnly();` + '\n',
+                  export default templateOnly();
+
+                  //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHRlbXBsYXRlT25seSBmcm9tICdAZW1iZXIvY29tcG9uZW50L3RlbXBsYXRlLW9ubHknO1xuXG5leHBvcnQgZGVmYXVsdCB0ZW1wbGF0ZU9ubHkoKTtcbiJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBO0FBQ0E7QUFDQTsifQ==`,
             },
             templates: {
               'application.hbs': '{{outlet}}',
@@ -942,6 +954,7 @@ describe('ColocatedTemplateCompiler', function () {
                 import Component from '@glimmer/component';
 
                 export default class FooComponent extends Component {}
+                //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IENvbXBvbmVudCBmcm9tICdAZ2xpbW1lci9jb21wb25lbnQnO1xuXG5leHBvcnQgZGVmYXVsdCBjbGFzcyBGb29Db21wb25lbnQgZXh0ZW5kcyBDb21wb25lbnQge30iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQTtBQUNBO0FBQ0EifQ==
               `,
             },
             templates: {
@@ -984,6 +997,7 @@ describe('ColocatedTemplateCompiler', function () {
               import Component from '@glimmer/component';
 
               export default class FooComponent extends Component {}
+              //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IENvbXBvbmVudCBmcm9tICdAZ2xpbW1lci9jb21wb25lbnQnO1xuXG5leHBvcnQgZGVmYXVsdCBjbGFzcyBGb29Db21wb25lbnQgZXh0ZW5kcyBDb21wb25lbnQge30iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQTtBQUNBO0FBQ0EifQ==
             `,
             },
             templates: {
@@ -1030,6 +1044,7 @@ describe('ColocatedTemplateCompiler', function () {
                 import Component from '@glimmer/component';
 
                 export default class FooComponent extends Component {}
+                //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IENvbXBvbmVudCBmcm9tICdAZ2xpbW1lci9jb21wb25lbnQnO1xuXG5leHBvcnQgZGVmYXVsdCBjbGFzcyBGb29Db21wb25lbnQgZXh0ZW5kcyBDb21wb25lbnQge30iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQTtBQUNBO0FBQ0EifQ==
               `,
             },
             templates: {
@@ -1070,6 +1085,7 @@ describe('ColocatedTemplateCompiler', function () {
               import Component from '@glimmer/component';
 
               export default class FooBarComponent extends Component {}
+              //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IENvbXBvbmVudCBmcm9tICdAZ2xpbW1lci9jb21wb25lbnQnO1xuXG5leHBvcnQgZGVmYXVsdCBjbGFzcyBGb29CYXJDb21wb25lbnQgZXh0ZW5kcyBDb21wb25lbnQge30iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQTtBQUNBO0FBQ0EifQ==
             `,
             },
             templates: {
@@ -1122,6 +1138,7 @@ describe('ColocatedTemplateCompiler', function () {
                 import Component from '@glimmer/component';
 
                 export default class FooComponent extends Component {}
+                //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IENvbXBvbmVudCBmcm9tICdAZ2xpbW1lci9jb21wb25lbnQnO1xuXG5leHBvcnQgZGVmYXVsdCBjbGFzcyBGb29Db21wb25lbnQgZXh0ZW5kcyBDb21wb25lbnQge30iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQTtBQUNBO0FBQ0EifQ==
               `,
             },
             templates: {
@@ -1158,13 +1175,14 @@ describe('ColocatedTemplateCompiler', function () {
           'app-name-here': {
             'router.js': '// stuff here',
             components: {
-              'foo.js':
-                stripIndent`
+              'foo.js': stripIndent`
                   import { hbs } from 'ember-cli-htmlbars';
                   const __COLOCATED_TEMPLATE__ = hbs("{{yield}}", {"contents":"{{yield}}","moduleName":"app-name-here/components/foo.hbs","parseOptions":{"srcName":"app-name-here/components/foo.hbs"}});
                   import templateOnly from '@ember/component/template-only';
 
-                  export default templateOnly();` + '\n',
+                  export default templateOnly();
+
+                  //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHRlbXBsYXRlT25seSBmcm9tICdAZW1iZXIvY29tcG9uZW50L3RlbXBsYXRlLW9ubHknO1xuXG5leHBvcnQgZGVmYXVsdCB0ZW1wbGF0ZU9ubHkoKTtcbiJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBO0FBQ0E7QUFDQTsifQ==`,
             },
             templates: {
               'application.hbs': '{{outlet}}',
