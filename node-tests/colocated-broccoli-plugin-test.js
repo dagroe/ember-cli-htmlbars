@@ -5,6 +5,31 @@ const ColocatedTemplateCompiler = require('../lib/colocated-broccoli-plugin');
 const { createTempDir, createBuilder } = require('broccoli-test-helper');
 const { stripIndent } = require('common-tags');
 
+function stripSourceMaps(input) {
+  let output = {};
+  for (let key in input) {
+    if (key === 'components') {
+      output[key] = {};
+      for (let component in input[key]) {
+        if (typeof input[key][component] === 'string') {
+          output[key][component] = input[key][component].replace(
+            /(\/\/# sourceMappingURL=data:application\/json;charset=utf-8;base64,).+(\n|$)/,
+            '$1{{SOURCEMAP}}'
+          );
+        } else {
+          output[key][component] = input[key][component];
+        }
+      }
+    } else if (typeof input[key] === 'object') {
+      output[key] = stripSourceMaps(input[key]);
+    } else {
+      output[key] = input[key];
+    }
+  }
+
+  return output;
+}
+
 describe('ColocatedTemplateCompiler', function () {
   this.timeout(10000);
 
@@ -40,7 +65,7 @@ describe('ColocatedTemplateCompiler', function () {
     output = createBuilder(tree);
     await output.build();
 
-    assert.deepStrictEqual(output.read(), {
+    assert.deepStrictEqual(stripSourceMaps(output.read()), {
       'app-name-here': {
         'router.js': '// stuff here',
         components: {
@@ -51,7 +76,7 @@ describe('ColocatedTemplateCompiler', function () {
 
             export default templateOnly();
 
-            //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHRlbXBsYXRlT25seSBmcm9tICdAZW1iZXIvY29tcG9uZW50L3RlbXBsYXRlLW9ubHknO1xuXG5leHBvcnQgZGVmYXVsdCB0ZW1wbGF0ZU9ubHkoKTtcbiJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBO0FBQ0E7QUFDQTsifQ==`,
+            //# sourceMappingURL=data:application/json;charset=utf-8;base64,{{SOURCEMAP}}`,
         },
         templates: {
           'application.hbs': '{{outlet}}',
@@ -101,7 +126,7 @@ describe('ColocatedTemplateCompiler', function () {
     output = createBuilder(tree);
     await output.build();
 
-    assert.deepStrictEqual(output.read(), {
+    assert.deepStrictEqual(stripSourceMaps(output.read()), {
       'app-name-here': {
         'router.js': '// stuff here',
         components: {
@@ -111,7 +136,7 @@ describe('ColocatedTemplateCompiler', function () {
             import Component from '@glimmer/component';
 
             export default class FooComponent extends Component {}
-            //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IENvbXBvbmVudCBmcm9tICdAZ2xpbW1lci9jb21wb25lbnQnO1xuXG5leHBvcnQgZGVmYXVsdCBjbGFzcyBGb29Db21wb25lbnQgZXh0ZW5kcyBDb21wb25lbnQge30iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQTtBQUNBO0FBQ0EifQ==
+            //# sourceMappingURL=data:application/json;charset=utf-8;base64,{{SOURCEMAP}}
           `,
         },
         templates: {
@@ -157,7 +182,7 @@ describe('ColocatedTemplateCompiler', function () {
     output = createBuilder(tree);
     await output.build();
 
-    assert.deepStrictEqual(output.read(), {
+    assert.deepStrictEqual(stripSourceMaps(output.read()), {
       'app-name-here': {
         'router.js': '// stuff here',
         components: {
@@ -210,7 +235,7 @@ describe('ColocatedTemplateCompiler', function () {
     output = createBuilder(tree);
     await output.build();
 
-    assert.deepStrictEqual(output.read(), {
+    assert.deepStrictEqual(stripSourceMaps(output.read()), {
       'app-name-here': {
         components: {
           'foo.ts': stripIndent`
@@ -219,7 +244,7 @@ describe('ColocatedTemplateCompiler', function () {
             import Component from '@glimmer/component';
 
             export default class FooComponent extends Component {}
-            //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLnRzIiwic291cmNlcyI6WyJmb28udHMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IENvbXBvbmVudCBmcm9tICdAZ2xpbW1lci9jb21wb25lbnQnO1xuXG5leHBvcnQgZGVmYXVsdCBjbGFzcyBGb29Db21wb25lbnQgZXh0ZW5kcyBDb21wb25lbnQge30iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQTtBQUNBO0FBQ0EifQ==
+            //# sourceMappingURL=data:application/json;charset=utf-8;base64,{{SOURCEMAP}}
           `,
         },
         templates: {
@@ -254,7 +279,7 @@ describe('ColocatedTemplateCompiler', function () {
     output = createBuilder(tree);
     await output.build();
 
-    assert.deepStrictEqual(output.read(), {
+    assert.deepStrictEqual(stripSourceMaps(output.read()), {
       'app-name-here': {
         components: {
           'foo.coffee': stripIndent`
@@ -294,7 +319,7 @@ describe('ColocatedTemplateCompiler', function () {
     output = createBuilder(tree);
     await output.build();
 
-    assert.deepStrictEqual(output.read(), {
+    assert.deepStrictEqual(stripSourceMaps(output.read()), {
       '@scope-name': {
         'addon-name-here': {
           components: {
@@ -305,7 +330,7 @@ describe('ColocatedTemplateCompiler', function () {
 
             export default templateOnly();
 
-            //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHRlbXBsYXRlT25seSBmcm9tICdAZW1iZXIvY29tcG9uZW50L3RlbXBsYXRlLW9ubHknO1xuXG5leHBvcnQgZGVmYXVsdCB0ZW1wbGF0ZU9ubHkoKTtcbiJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBO0FBQ0E7QUFDQTsifQ==`,
+            //# sourceMappingURL=data:application/json;charset=utf-8;base64,{{SOURCEMAP}}`,
           },
           templates: {
             'application.hbs': '{{outlet}}',
@@ -343,7 +368,7 @@ describe('ColocatedTemplateCompiler', function () {
     output = createBuilder(tree);
     await output.build();
 
-    assert.deepStrictEqual(output.read(), {
+    assert.deepStrictEqual(stripSourceMaps(output.read()), {
       '@scope-name': {
         'addon-name-here': {
           components: {
@@ -353,7 +378,7 @@ describe('ColocatedTemplateCompiler', function () {
             import Component from '@glimmer/component';
 
             export default class FooComponent extends Component {}
-            //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IENvbXBvbmVudCBmcm9tICdAZ2xpbW1lci9jb21wb25lbnQnO1xuXG5leHBvcnQgZGVmYXVsdCBjbGFzcyBGb29Db21wb25lbnQgZXh0ZW5kcyBDb21wb25lbnQge30iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQTtBQUNBO0FBQ0EifQ==
+            //# sourceMappingURL=data:application/json;charset=utf-8;base64,{{SOURCEMAP}}
           `,
           },
           templates: {
@@ -392,7 +417,7 @@ describe('ColocatedTemplateCompiler', function () {
     output = createBuilder(tree);
     await output.build();
 
-    assert.deepStrictEqual(output.read(), input.read());
+    assert.deepStrictEqual(stripSourceMaps(output.read()), input.read());
 
     await output.build();
 
@@ -415,7 +440,7 @@ describe('ColocatedTemplateCompiler', function () {
     output = createBuilder(tree);
     await output.build();
 
-    assert.deepStrictEqual(output.read(), input.read());
+    assert.deepStrictEqual(stripSourceMaps(output.read()), input.read());
 
     await output.build();
 
@@ -430,7 +455,7 @@ describe('ColocatedTemplateCompiler', function () {
     output = createBuilder(tree);
     await output.build();
 
-    assert.deepStrictEqual(output.read(), {});
+    assert.deepStrictEqual(stripSourceMaps(output.read()), {});
 
     await output.build();
 
@@ -461,7 +486,7 @@ describe('ColocatedTemplateCompiler', function () {
     output = createBuilder(tree);
     await output.build();
 
-    assert.deepStrictEqual(output.read(), {
+    assert.deepStrictEqual(stripSourceMaps(output.read()), {
       'app-name-here': {
         components: {
           'foo.js': stripIndent`
@@ -501,7 +526,7 @@ describe('ColocatedTemplateCompiler', function () {
     output = createBuilder(tree);
     await output.build();
 
-    assert.deepStrictEqual(output.read(), {
+    assert.deepStrictEqual(stripSourceMaps(output.read()), {
       'app-name-here': {
         components: {
           'foo.js': stripIndent`
@@ -538,7 +563,7 @@ describe('ColocatedTemplateCompiler', function () {
       await output.build();
 
       assert.deepStrictEqual(
-        output.read(),
+        stripSourceMaps(output.read()),
         {
           'app-name-here': {
             'router.js': '// stuff here',
@@ -550,7 +575,7 @@ describe('ColocatedTemplateCompiler', function () {
 
             export default templateOnly();
 
-            //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHRlbXBsYXRlT25seSBmcm9tICdAZW1iZXIvY29tcG9uZW50L3RlbXBsYXRlLW9ubHknO1xuXG5leHBvcnQgZGVmYXVsdCB0ZW1wbGF0ZU9ubHkoKTtcbiJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBO0FBQ0E7QUFDQTsifQ==`,
+            //# sourceMappingURL=data:application/json;charset=utf-8;base64,{{SOURCEMAP}}`,
             },
             templates: {
               'application.hbs': '{{outlet}}',
@@ -585,7 +610,7 @@ describe('ColocatedTemplateCompiler', function () {
       );
 
       assert.deepStrictEqual(
-        output.read(),
+        stripSourceMaps(output.read()),
         {
           'app-name-here': {
             'router.js': '// stuff here',
@@ -596,7 +621,7 @@ describe('ColocatedTemplateCompiler', function () {
               import Component from '@glimmer/component';
 
               export default class FooComponent extends Component {}
-              //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IENvbXBvbmVudCBmcm9tICdAZ2xpbW1lci9jb21wb25lbnQnO1xuXG5leHBvcnQgZGVmYXVsdCBjbGFzcyBGb29Db21wb25lbnQgZXh0ZW5kcyBDb21wb25lbnQge30iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQTtBQUNBO0FBQ0EifQ==
+              //# sourceMappingURL=data:application/json;charset=utf-8;base64,{{SOURCEMAP}}
             `,
             },
             templates: {
@@ -631,7 +656,7 @@ describe('ColocatedTemplateCompiler', function () {
       await output.build();
 
       assert.deepStrictEqual(
-        output.read(),
+        stripSourceMaps(output.read()),
         {
           'app-name-here': {
             'router.js': '// stuff here',
@@ -671,7 +696,7 @@ describe('ColocatedTemplateCompiler', function () {
       );
 
       assert.deepStrictEqual(
-        output.read(),
+        stripSourceMaps(output.read()),
         {
           'app-name-here': {
             'router.js': '// stuff here',
@@ -682,7 +707,7 @@ describe('ColocatedTemplateCompiler', function () {
               import Component from '@glimmer/component';
 
               export default class FooComponent extends Component {}
-              //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IENvbXBvbmVudCBmcm9tICdAZ2xpbW1lci9jb21wb25lbnQnO1xuXG5leHBvcnQgZGVmYXVsdCBjbGFzcyBGb29Db21wb25lbnQgZXh0ZW5kcyBDb21wb25lbnQge30iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQTtBQUNBO0FBQ0EifQ==
+              //# sourceMappingURL=data:application/json;charset=utf-8;base64,{{SOURCEMAP}}
             `,
             },
             templates: {
@@ -717,7 +742,7 @@ describe('ColocatedTemplateCompiler', function () {
       await output.build();
 
       assert.deepStrictEqual(
-        output.read(),
+        stripSourceMaps(output.read()),
         {
           'app-name-here': {
             'router.js': '// stuff here',
@@ -757,7 +782,7 @@ describe('ColocatedTemplateCompiler', function () {
       );
 
       assert.deepStrictEqual(
-        output.read(),
+        stripSourceMaps(output.read()),
         {
           'app-name-here': {
             'router.js': '// stuff here',
@@ -790,7 +815,7 @@ describe('ColocatedTemplateCompiler', function () {
       await output.build();
 
       assert.deepStrictEqual(
-        output.read(),
+        stripSourceMaps(output.read()),
         {
           'app-name-here': {
             'router.js': '// stuff here',
@@ -802,7 +827,7 @@ describe('ColocatedTemplateCompiler', function () {
 
                   export default templateOnly();
 
-                  //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHRlbXBsYXRlT25seSBmcm9tICdAZW1iZXIvY29tcG9uZW50L3RlbXBsYXRlLW9ubHknO1xuXG5leHBvcnQgZGVmYXVsdCB0ZW1wbGF0ZU9ubHkoKTtcbiJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBO0FBQ0E7QUFDQTsifQ==`,
+                  //# sourceMappingURL=data:application/json;charset=utf-8;base64,{{SOURCEMAP}}`,
             },
             templates: {
               'application.hbs': '{{outlet}}',
@@ -852,7 +877,7 @@ describe('ColocatedTemplateCompiler', function () {
       await output.build();
 
       assert.deepStrictEqual(
-        output.read(),
+        stripSourceMaps(output.read()),
         {
           'app-name-here': {
             'router.js': '// stuff here',
@@ -864,7 +889,7 @@ describe('ColocatedTemplateCompiler', function () {
 
                   export default templateOnly();
 
-                  //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHRlbXBsYXRlT25seSBmcm9tICdAZW1iZXIvY29tcG9uZW50L3RlbXBsYXRlLW9ubHknO1xuXG5leHBvcnQgZGVmYXVsdCB0ZW1wbGF0ZU9ubHkoKTtcbiJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBO0FBQ0E7QUFDQTsifQ==
+                  //# sourceMappingURL=data:application/json;charset=utf-8;base64,{{SOURCEMAP}}
                 `,
             },
             templates: {
@@ -896,7 +921,7 @@ describe('ColocatedTemplateCompiler', function () {
       );
 
       assert.deepStrictEqual(
-        output.read(),
+        stripSourceMaps(output.read()),
         {
           'app-name-here': {
             'router.js': '// stuff here',
@@ -908,7 +933,7 @@ describe('ColocatedTemplateCompiler', function () {
 
                   export default templateOnly();
 
-                  //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHRlbXBsYXRlT25seSBmcm9tICdAZW1iZXIvY29tcG9uZW50L3RlbXBsYXRlLW9ubHknO1xuXG5leHBvcnQgZGVmYXVsdCB0ZW1wbGF0ZU9ubHkoKTtcbiJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBO0FBQ0E7QUFDQTsifQ==`,
+                  //# sourceMappingURL=data:application/json;charset=utf-8;base64,{{SOURCEMAP}}`,
             },
             templates: {
               'application.hbs': '{{outlet}}',
@@ -943,7 +968,7 @@ describe('ColocatedTemplateCompiler', function () {
       await output.build();
 
       assert.deepStrictEqual(
-        output.read(),
+        stripSourceMaps(output.read()),
         {
           'app-name-here': {
             'router.js': '// stuff here',
@@ -954,7 +979,7 @@ describe('ColocatedTemplateCompiler', function () {
                 import Component from '@glimmer/component';
 
                 export default class FooComponent extends Component {}
-                //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IENvbXBvbmVudCBmcm9tICdAZ2xpbW1lci9jb21wb25lbnQnO1xuXG5leHBvcnQgZGVmYXVsdCBjbGFzcyBGb29Db21wb25lbnQgZXh0ZW5kcyBDb21wb25lbnQge30iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQTtBQUNBO0FBQ0EifQ==
+                //# sourceMappingURL=data:application/json;charset=utf-8;base64,{{SOURCEMAP}}
               `,
             },
             templates: {
@@ -986,7 +1011,7 @@ describe('ColocatedTemplateCompiler', function () {
       );
 
       assert.deepStrictEqual(
-        output.read(),
+        stripSourceMaps(output.read()),
         {
           'app-name-here': {
             'router.js': '// stuff here',
@@ -997,7 +1022,7 @@ describe('ColocatedTemplateCompiler', function () {
               import Component from '@glimmer/component';
 
               export default class FooComponent extends Component {}
-              //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IENvbXBvbmVudCBmcm9tICdAZ2xpbW1lci9jb21wb25lbnQnO1xuXG5leHBvcnQgZGVmYXVsdCBjbGFzcyBGb29Db21wb25lbnQgZXh0ZW5kcyBDb21wb25lbnQge30iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQTtBQUNBO0FBQ0EifQ==
+              //# sourceMappingURL=data:application/json;charset=utf-8;base64,{{SOURCEMAP}}
             `,
             },
             templates: {
@@ -1033,7 +1058,7 @@ describe('ColocatedTemplateCompiler', function () {
       await output.build();
 
       assert.deepStrictEqual(
-        output.read(),
+        stripSourceMaps(output.read()),
         {
           'app-name-here': {
             'router.js': '// stuff here',
@@ -1044,7 +1069,7 @@ describe('ColocatedTemplateCompiler', function () {
                 import Component from '@glimmer/component';
 
                 export default class FooComponent extends Component {}
-                //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IENvbXBvbmVudCBmcm9tICdAZ2xpbW1lci9jb21wb25lbnQnO1xuXG5leHBvcnQgZGVmYXVsdCBjbGFzcyBGb29Db21wb25lbnQgZXh0ZW5kcyBDb21wb25lbnQge30iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQTtBQUNBO0FBQ0EifQ==
+                //# sourceMappingURL=data:application/json;charset=utf-8;base64,{{SOURCEMAP}}
               `,
             },
             templates: {
@@ -1074,7 +1099,7 @@ describe('ColocatedTemplateCompiler', function () {
       await output.build();
 
       assert.deepStrictEqual(
-        output.read(),
+        stripSourceMaps(output.read()),
         {
           'app-name-here': {
             'router.js': '// stuff here',
@@ -1085,7 +1110,7 @@ describe('ColocatedTemplateCompiler', function () {
               import Component from '@glimmer/component';
 
               export default class FooBarComponent extends Component {}
-              //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IENvbXBvbmVudCBmcm9tICdAZ2xpbW1lci9jb21wb25lbnQnO1xuXG5leHBvcnQgZGVmYXVsdCBjbGFzcyBGb29CYXJDb21wb25lbnQgZXh0ZW5kcyBDb21wb25lbnQge30iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQTtBQUNBO0FBQ0EifQ==
+              //# sourceMappingURL=data:application/json;charset=utf-8;base64,{{SOURCEMAP}}
             `,
             },
             templates: {
@@ -1127,7 +1152,7 @@ describe('ColocatedTemplateCompiler', function () {
       await output.build();
 
       assert.deepStrictEqual(
-        output.read(),
+        stripSourceMaps(output.read()),
         {
           'app-name-here': {
             'router.js': '// stuff here',
@@ -1138,7 +1163,7 @@ describe('ColocatedTemplateCompiler', function () {
                 import Component from '@glimmer/component';
 
                 export default class FooComponent extends Component {}
-                //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IENvbXBvbmVudCBmcm9tICdAZ2xpbW1lci9jb21wb25lbnQnO1xuXG5leHBvcnQgZGVmYXVsdCBjbGFzcyBGb29Db21wb25lbnQgZXh0ZW5kcyBDb21wb25lbnQge30iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQTtBQUNBO0FBQ0EifQ==
+                //# sourceMappingURL=data:application/json;charset=utf-8;base64,{{SOURCEMAP}}
               `,
             },
             templates: {
@@ -1170,7 +1195,7 @@ describe('ColocatedTemplateCompiler', function () {
       );
 
       assert.deepStrictEqual(
-        output.read(),
+        stripSourceMaps(output.read()),
         {
           'app-name-here': {
             'router.js': '// stuff here',
@@ -1182,7 +1207,7 @@ describe('ColocatedTemplateCompiler', function () {
 
                   export default templateOnly();
 
-                  //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZm9vLmpzIiwic291cmNlcyI6WyJmb28uanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHRlbXBsYXRlT25seSBmcm9tICdAZW1iZXIvY29tcG9uZW50L3RlbXBsYXRlLW9ubHknO1xuXG5leHBvcnQgZGVmYXVsdCB0ZW1wbGF0ZU9ubHkoKTtcbiJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBO0FBQ0E7QUFDQTsifQ==`,
+                  //# sourceMappingURL=data:application/json;charset=utf-8;base64,{{SOURCEMAP}}`,
             },
             templates: {
               'application.hbs': '{{outlet}}',
