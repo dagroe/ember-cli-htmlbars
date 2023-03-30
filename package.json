@@ -99,7 +99,6 @@
     "qunit-dom": "^2.0.0",
     "release-it": "^14.2.1",
     "release-it-lerna-changelog": "^3.1.0",
-    "vlq": "^2.0.4",
     "webpack": "^5.58.2"
   },
   "engines": {
